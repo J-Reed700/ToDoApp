@@ -1,0 +1,29 @@
+services:
+  api:
+    image: todoapp.api:latest
+    build:
+      context: ./api
+      dockerfile: dockerfile
+    ports:
+      - "5001:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+    networks:
+      - todoapp-network
+
+  web:
+    image: todoapp.web:latest
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+    networks:
+      - todoapp-network
+
+networks:
+  todoapp-network:
+    driver: bridge
