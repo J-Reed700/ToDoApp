@@ -68,11 +68,11 @@ npm install
 npm run dev
 ```
 
-The frontend will be available at `http://localhost:5173`
+The frontend will be available at `http://localhost:3000`
 
 ### Usage
 
-1. Open your browser and navigate to `http://localhost:5173`
+1. Open your browser and navigate to `http://localhost:3000`
 2. Begin creating tasks and organizing them into categories
 
 ## Project Structure
@@ -174,7 +174,7 @@ docker-compose up --build
 
 ### Frontend Configuration
 - **API Base URL**: `http://localhost:5000/api` (configurable in `services/api.ts`)
-- **Dev Port**: 5173 (configurable in `vite.config.ts`)
+- **Dev Port**: 3000 (configurable in `vite.config.ts`)
 
 ## Troubleshooting
 
