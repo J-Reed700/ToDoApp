@@ -36,18 +36,25 @@ Ensure you have the following installed:
 
 Clone the repository:
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/J-Reed700/ToDoApp
 cd ToDoApp
 ```
 
 ### Running the Backend
 
+**Command Line:**
 Navigate to the API folder and start the server:
 ```bash
 cd api
 dotnet build
 dotnet run --project src/Presentation
 ```
+
+**Visual Studio:**
+1. Open `api/ToDoApp.sln` in Visual Studio
+2. Set `Presentation` as the startup project
+3. Choose the "Visual Studio" profile from the dropdown (this will open Swagger automatically)
+4. Press F5 or click the "Start" button
 
 The backend will be available at `http://localhost:5000`
 API documentation is accessible at `http://localhost:5000/swagger`
@@ -177,6 +184,69 @@ docker-compose up --build
 - Install .NET 9 SDK from Microsoft's website
 - Restart your terminal after installation
 
+Check installed SDKs:
+```bash
+dotnet --list-sdks
+```
+
+**If dotnet is not installed at all:**
+
+**Windows:**
+```bash
+# Option 1: Using winget (Windows Package Manager)
+winget install Microsoft.DotNet.SDK.9
+
+# Option 2: Using Chocolatey (if you have it)
+choco install dotnet-9.0-sdk
+
+# Option 3: Direct download
+# Go to https://dotnet.microsoft.com/download/dotnet/9.0
+# Download ".NET 9.0 SDK" for Windows x64
+# Run the .exe installer
+```
+
+**Mac:**
+```bash
+# Option 1: Using Homebrew (most popular)
+brew install --cask dotnet-sdk
+
+# Option 2: Direct download (recommended for beginners)
+# Go to https://dotnet.microsoft.com/download/dotnet/9.0
+# Download ".NET 9.0 SDK" for macOS
+# Choose "macOS x64" for Intel Macs or "macOS Arm64" for Apple Silicon (M1/M2/M3/M4)
+# Run the .pkg installer
+
+# Option 3: Using install script
+curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version latest --channel 9.0
+# Add to your shell profile (.zshrc for zsh, .bash_profile for bash):
+echo 'export PATH="$PATH:$HOME/.dotnet"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+If .NET 9 not installed (but older versions exist):
+
+**Windows:**
+```bash
+winget install Microsoft.DotNet.SDK.9
+```
+
+**Mac:**
+```bash
+# Option 1: Using Homebrew (recommended)
+brew install --cask dotnet-sdk
+
+# Option 2: Direct download
+# Go to https://dotnet.microsoft.com/download/dotnet/9.0
+# Download .NET 9.0 SDK for macOS (choose x64 for Intel or Arm64 for Apple Silicon)
+
+# Option 3: Using install script
+curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version latest --channel 9.0
+export PATH="$PATH:$HOME/.dotnet"
+```
+
+
+
+
 **"npm: command not found"**
 - Install Node.js from nodejs.org
 - Restart your terminal after installation
@@ -184,6 +254,8 @@ docker-compose up --build
 **Frontend can't connect to backend**
 - Ensure the backend is running on port 5000
 - Verify the API_BASE_URL in `web/services/api.ts` is correct
+- On Windows, if localhost doesn't work, try changing the API URL to `http://127.0.0.1:5000/api`
+- Check Windows Firewall settings if connection issues persist
 
 **Database errors**
 - Delete the database file and restart the backend

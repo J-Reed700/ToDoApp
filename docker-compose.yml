@@ -5,7 +5,7 @@ services:
       context: ./api
       dockerfile: dockerfile
     ports:
-      - "5001:5000"
+      - "5000:5000"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5000
