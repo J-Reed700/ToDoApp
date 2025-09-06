@@ -355,10 +355,10 @@ This implementation makes several assumptions suitable for a demo/prototype envi
 Beyond infrastructure scaling, here are the core features I'd prioritize adding to enhance functionality:
 
 #### Immediate Priorities (Next 1-3 Months)
-- **Database Migration to PostgreSQL**: First step - move away from SQLite to support concurrent users and better query performance
-- **Authentication** Implement user authentication system.
+- **Database Migration to PostgreSQL**: Move away from SQLite to support concurrent users and better query performance
+- **User Authentication & Authorization**: Replace current basic setup with proper JWT-based auth
 - **Response Pagination**: Implement cursor-based pagination for task lists to handle users with hundreds of tasks
-- **Database Indexing**: Add indexes on frequently queried columns (user_id, category_id, status, due_date) for faster queries
+- **Database Indexing**: Add indexes on frequently queried columns for faster queries
 - **Basic Rate Limiting**: Implement simple in-memory rate limiting to prevent API abuse (before Redis)
 - **Email Notifications**: Simple email service for due date reminders and task assignments
   - Begin with direct SMTP integration (SendGrid, AWS SES)
@@ -366,7 +366,6 @@ Beyond infrastructure scaling, here are the core features I'd prioritize adding 
 
 #### Short-term Features (3-6 Months)  
 - **Redis Integration**: Start with session storage and basic caching of frequently accessed data
-- **User Authentication & Authorization**: Replace current basic setup with proper JWT-based auth
 - **Task Due Date Reminders**: Background job to send daily/weekly email summaries
 - **Bulk Task Operations**: Allow users to update multiple tasks at once (mark complete, change category, etc.)
 - **Third-party Integrations**: Calendar sync (Google Calendar, Outlook), Slack notifications
