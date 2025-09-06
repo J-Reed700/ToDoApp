@@ -303,7 +303,7 @@ This implementation makes several assumptions suitable for a demo/prototype envi
 
 #### Database & Data Layer
 - **Migrate to PostgreSQL or SQL Server**: Replace SQLite with a production-grade RDBMS that supports connection pooling, replication, and concurrent access
-- **Implement Database Indexing**: Add strategic indexes on frequently queried fields (user_id, category_id, due_date, status)
+- **Implement Database Indexing**: Add strategic indexes on frequently queried fields
 - **Read Replicas**: Deploy read-only database replicas to distribute query load and improve read performance
 - **Connection Pooling**: Use pgBouncer or similar to efficiently manage database connections
 - **Data Archiving Strategy**: Automatically archive completed tasks older than X months to maintain query performance
