@@ -286,3 +286,104 @@ Contributions are welcome:
 - Add more tests
 
 The codebase follows clean architecture principles and modern development practices.
+
+## Scalability Considerations
+
+### Current Architecture Assumptions
+
+This implementation makes several assumptions suitable for a demo/prototype environment:
+
+- **SQLite Database**: Great for development and small deployments, but has limitations for concurrent users and data volume
+- **In-Memory Storage**: Task data is stored locally without distributed caching
+- **Single Instance Deployment**: No load balancing or horizontal scaling capabilities
+- **Synchronous Processing**: All operations are handled immediately without background job queues
+- **Basic Error Handling**: Simple error responses without comprehensive logging or monitoring
+
+### Production Scalability Roadmap
+
+#### Database & Data Layer
+- **Migrate to PostgreSQL or SQL Server**: Replace SQLite with a production-grade RDBMS that supports connection pooling, replication, and concurrent access
+- **Implement Database Indexing**: Add strategic indexes on frequently queried fields (user_id, category_id, due_date, status)
+- **Read Replicas**: Deploy read-only database replicas to distribute query load and improve read performance
+- **Connection Pooling**: Use pgBouncer or similar to efficiently manage database connections
+- **Data Archiving Strategy**: Automatically archive completed tasks older than X months to maintain query performance
+
+#### API Performance & Reliability
+- **Pagination**: Implement cursor-based pagination for task lists to handle large datasets efficiently
+- **Rate Limiting**: Use Redis-backed rate limiting to prevent abuse and ensure fair resource usage
+- **Response Caching**: Cache frequently accessed data (categories, user preferences) using Redis or ElastiCache
+- **API Versioning**: Implement proper versioning strategy to support mobile apps and maintain backward compatibility
+- **Bulk Operations**: Add endpoints for bulk task creation/updates to reduce API calls
+
+#### Infrastructure & Deployment
+- **Containerized Deployment**: Migrate from local hosting to containerized deployment using ECS Fargate or Kubernetes
+- **Auto-Scaling**: Configure horizontal pod autoscaling based on CPU, memory, and request metrics
+- **Load Balancing**: Use Application Load Balancer to distribute traffic across multiple API instances
+- **CDN Integration**: Serve static assets (React build) through CloudFront or similar CDN
+- **Multi-Region Deployment**: Deploy across multiple AWS regions for improved latency and disaster recovery
+
+#### Background Processing
+- **Async Job Queue**: Implement background job processing using SQS/Redis Queue for:
+  - Email notifications for due tasks
+  - Bulk data exports
+  - Database cleanup operations
+  - Third-party integrations
+- **Event-Driven Architecture**: Use EventBridge or similar for decoupled communication between services
+
+#### Monitoring & Observability
+- **Application Performance Monitoring**: Integrate APM tools like DataDog or New Relic for real-time performance insights
+- **Structured Logging**: Implement comprehensive logging with correlation IDs for request tracing
+- **Health Checks**: Add detailed health check endpoints for load balancer integration
+- **Metrics Dashboard**: Track key business and technical metrics (task completion rates, API response times, error rates)
+
+#### Security at Scale
+- **API Gateway**: Use AWS API Gateway or similar for centralized authentication, throttling, and monitoring
+- **JWT Token Management**: Implement proper token refresh mechanisms and secure token storage
+- **Input Validation**: Enhanced validation and sanitization to prevent injection attacks at scale
+- **Audit Logging**: Track all data modifications for compliance and debugging
+
+### Implementation Priority
+
+1. **Phase 1 (0-1k users)**: Database migration, basic caching, pagination
+2. **Phase 2 (1k-10k users)**: Auto-scaling, load balancing, monitoring
+3. **Phase 3 (10k+ users)**: Read replicas, advanced caching, background jobs
+4. **Phase 4 (Enterprise)**: Multi-region, microservices, advanced analytics
+
+
+### Next Feature Implementations
+
+Beyond infrastructure scaling, here are the core features I'd prioritize adding to enhance functionality:
+
+#### Immediate Priorities (Next 1-3 Months)
+- **Database Migration to PostgreSQL**: First step - move away from SQLite to support concurrent users and better query performance
+- **Authentication** Implement user authentication system.
+- **Response Pagination**: Implement cursor-based pagination for task lists to handle users with hundreds of tasks
+- **Database Indexing**: Add indexes on frequently queried columns (user_id, category_id, status, due_date) for faster queries
+- **Basic Rate Limiting**: Implement simple in-memory rate limiting to prevent API abuse (before Redis)
+- **Email Notifications**: Simple email service for due date reminders and task assignments
+  - Begin with direct SMTP integration (SendGrid, AWS SES)
+  - Later migrate to event-driven architecture for reliability
+
+#### Short-term Features (3-6 Months)  
+- **Redis Integration**: Start with session storage and basic caching of frequently accessed data
+- **User Authentication & Authorization**: Replace current basic setup with proper JWT-based auth
+- **Task Due Date Reminders**: Background job to send daily/weekly email summaries
+- **Bulk Task Operations**: Allow users to update multiple tasks at once (mark complete, change category, etc.)
+- **Third-party Integrations**: Calendar sync (Google Calendar, Outlook), Slack notifications
+- **Analytics Dashboard**: Task completion trends, productivity insights
+- **API Webhooks**: Allow external systems to react to task changes
+- **Custom Fields**: Let users add custom metadata to tasks
+- **Recurring Tasks**: Support for daily/weekly/monthly recurring task creation
+- **Time Tracking**: Basic time logging functionality for tasks
+
+#### Medium-term Enhancements (6-12 Months)
+- **Advanced Email System**: Move email sending to event bus architecture with dead letter queues for failed deliveries
+- **Task Templates**: Allow users to create reusable task templates for common workflows
+- **File Attachments**: Support file uploads and attachments to tasks
+- **Task Dependencies**: Enable tasks to depend on completion of other tasks
+- **Team Collaboration**: Share tasks and categories between users
+- **Advanced Filtering**: Date ranges, priority filters, custom sorting options
+- **Mobile-Responsive UI**: Enhanced mobile experience with offline capabilities
+
+### Far in future (1-2 years)
+- **Read Only Replica**: Implement Read only replica
