@@ -40,6 +40,9 @@ git clone <your-repo-url>
 cd ToDoApp
 ```
 
+###Add environment file. 
+- Copy .env.example To new file .env
+
 ### Running the Backend
 
 Navigate to the API folder and start the server:
@@ -188,6 +191,9 @@ docker-compose up --build
 **Database errors**
 - Delete the database file and restart the backend
 - The application will automatically create a new database
+
+**Port 5000 in use on Macbook**
+- For fixing this you need to turn off System Settings > General > AirDrop & Handoff > AirPlay Receiver
 
 ### Getting Help
 
