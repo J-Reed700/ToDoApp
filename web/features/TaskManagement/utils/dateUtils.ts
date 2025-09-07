@@ -4,12 +4,20 @@
 
 /**
  * Converts a date value (Date object or string) to a Date object
+ * Handles date strings as local dates to avoid timezone conversion issues
  * @param date - The date value to convert
  * @returns Date object or null if input is null/undefined
  */
 export const toDate = (date: Date | string | null | undefined): Date | null => {
   if (!date) return null;
-  return date instanceof Date ? date : new Date(date);
+  if (date instanceof Date) return date;
+  if (typeof date === 'string' && date.includes('T')) {
+    const [datePart] = date.split('T');
+    const [year, month, day] = datePart.split('-').map(Number);
+    return new Date(year, month - 1, day); 
+  }
+  
+  return new Date(date);
 };
 
 /**
