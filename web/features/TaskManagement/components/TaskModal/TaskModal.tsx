@@ -1,8 +1,14 @@
 import { TaskItem, TaskCategory } from "../../domain/types";
-import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
+import { 
+    Dialog, 
+    DialogPanel, 
+    DialogTitle } from '@headlessui/react';
 import { Status, Priority } from "../../domain/types";
 import { useState, useEffect } from 'react';
-import { toDateInputValue, formatDisplayDate, toDate } from '../../utils/dateUtils';
+import { 
+    toDateInputValue, 
+    formatDisplayDate, 
+    toDate } from '../../utils/dateUtils';
 import { useApiService } from '../../../../context/apiServiceContext';
 import { TaskComments } from '../TaskComments/TaskComments';
 import './TaskModal.css';

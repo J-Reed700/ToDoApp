@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { CreateTaskRequest } from '../../services/types';
-import { Priority, Status, TaskCategory } from '../../domain/types';
+import { 
+  Priority, 
+  Status, 
+  TaskCategory } 
+from '../../domain/types';
+
 import './AddTaskForm.css';
 
 interface AddTaskFormProps {

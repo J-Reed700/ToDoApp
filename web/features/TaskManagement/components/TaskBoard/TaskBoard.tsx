@@ -1,6 +1,16 @@
 import React from 'react';
-import { DndContext, DragEndEvent, DragOverlay, DragStartEvent } from '@dnd-kit/core';
-import { TaskItem, Status, TaskCategory } from '../../../../types';
+import { 
+  DndContext, 
+  DragEndEvent, 
+  DragOverlay,
+  DragStartEvent } 
+from '@dnd-kit/core';
+import { 
+  TaskItem, 
+  Status, 
+  TaskCategory 
+} 
+from '../../../../types';
 import { TaskColumn } from '../TaskColumn/TaskColumn';
 import { TaskCard } from '../TaskCard/TaskCard';
 import { useApiService } from '../../../../context';
