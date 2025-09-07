@@ -1,6 +1,10 @@
 import React from 'react';
 import { useDroppable } from '@dnd-kit/core';
-import { TaskItem, Status, TaskCategory } from '../../domain/types';
+import { 
+  TaskItem, 
+  Status, 
+  TaskCategory 
+} from '../../domain/types';
 import { TaskCard } from '../TaskCard/TaskCard';
 import './TaskColumn.css';
 

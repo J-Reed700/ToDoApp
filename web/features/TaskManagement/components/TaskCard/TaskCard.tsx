@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useDraggable } from '@dnd-kit/core';
-import { TaskItem, Priority, TaskCategory } from '../../domain/types';
+import { 
+  TaskItem, 
+  Priority, 
+  TaskCategory } from '../../domain/types';
 import { TaskModal } from '../TaskModal/TaskModal';
 import { formatDisplayDate } from '../../utils/dateUtils';
 import './TaskCard.css';
