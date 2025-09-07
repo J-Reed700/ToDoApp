@@ -40,6 +40,9 @@ git clone https://github.com/J-Reed700/ToDoApp
 cd ToDoApp
 ```
 
+###Add environment file. 
+- Copy .env.example To new file .env
+
 ### Running the Backend
 
 **Command Line:**
@@ -260,6 +263,9 @@ export PATH="$PATH:$HOME/.dotnet"
 **Database errors**
 - Delete the database file and restart the backend
 - The application will automatically create a new database
+
+**Port 5000 in use on Macbook**
+- For fixing this you need to turn off System Settings > General > AirDrop & Handoff > AirPlay Receiver
 
 ### Getting Help
 

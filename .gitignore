@@ -483,3 +483,6 @@ $RECYCLE.BIN/
 
 
 web/node_modules/
+
+# Environment files
+web/.env
