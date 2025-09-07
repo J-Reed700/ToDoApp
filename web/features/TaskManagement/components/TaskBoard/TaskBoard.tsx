@@ -4,7 +4,7 @@ import { TaskItem, Status, TaskCategory } from '../../../../types';
 import { TaskColumn } from '../TaskColumn/TaskColumn';
 import { TaskCard } from '../TaskCard/TaskCard';
 import { useApiService } from '../../../../context';
-import { STATUS_CONFIG, COLUMN_ORDER } from '../../../../constants';
+import { STATUS_CONFIG, COLUMN_ORDER } from '../../constants';
 import './TaskBoard.css';
 
 interface TaskBoardProps {
@@ -84,7 +84,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
         )}
 
         <div className="board-columns">
-          {COLUMN_ORDER.map((status) => {
+          {COLUMN_ORDER.map((status: Status) => {
             const config = STATUS_CONFIG[status];
             const tasks = tasksByStatus[status] || [];
             

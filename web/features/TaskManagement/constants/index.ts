@@ -1,4 +1,4 @@
-import { Status, Priority } from '../types';
+import { Status, Priority } from '../domain/types';
 
 export const STATUS_CONFIG = {
   [Status.ToDo]: { title: 'To Do', color: '#6B7280' },
