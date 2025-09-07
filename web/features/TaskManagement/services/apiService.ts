@@ -46,7 +46,7 @@ export class ApiService extends BaseApiService {
   async deleteTask(id: number): Promise<void> {
     return this.request(`${Endpoint.Task}/${id}`, {
       method: 'DELETE',
-      expectResponse: false, // DELETE operations typically don't return data
+      expectResponse: false,
     });
   }
 
@@ -60,24 +60,6 @@ export class ApiService extends BaseApiService {
     return result;
   }
 
-  // Create a default category if none exists
-  async createDefaultList(): Promise<TaskCategory> {
-    const result = await this.request<TaskCategory>(Endpoint.Categories, {
-      method: 'POST',
-      body: JSON.stringify({
-        categoryName: 'My Tasks'
-      }),
-      expectResponse: true,
-    });
-    
-    if (!result) {
-      throw new Error('Failed to create default category - no response received');
-    }
-    
-    return result;
-  }
-
-  // Comment operations
   async getTaskComments(taskId: number): Promise<TaskComment[]> {
     const result = await this.request<TaskComment[]>(`${Endpoint.TaskComments}?taskId=${taskId}`, {
       expectResponse: true,
