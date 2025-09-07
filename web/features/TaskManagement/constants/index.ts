@@ -1,4 +1,4 @@
-import { Status, Priority } from '../types';
+import { Status, Priority } from '../domain/types';
 
 export const STATUS_CONFIG = {
   [Status.ToDo]: { title: 'To Do', color: '#6B7280' },
@@ -16,19 +16,3 @@ export const COLUMN_ORDER = [
   Status.Completed,
   Status.Cancelled
 ] as const;
-
-// Priority Labels
-export const PRIORITY_LABELS = {
-  [Priority.None]: 'None',
-  [Priority.Low]: 'Low',
-  [Priority.Medium]: 'Medium',
-  [Priority.High]: 'High',
-  [Priority.Critical]: 'Critical',
-} as const;
-
-// Date Formats
-export const DATE_FORMATS = {
-  DISPLAY: 'MMM dd, yyyy',
-  FULL: 'MMMM dd, yyyy HH:mm',
-  TIME: 'HH:mm',
-} as const;
