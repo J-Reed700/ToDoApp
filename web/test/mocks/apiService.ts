@@ -23,7 +23,7 @@ export const mockCategories: TaskCategory[] = [
         title: 'Review code',
         description: 'Review pull requests',
         priority: Priority.Medium,
-        status: Status.None,
+        status: Status.ToDo,
         dueDate: '2024-01-20',
       },
     ],

@@ -1,7 +1,7 @@
 import { Status, Priority } from '../types';
 
 export const STATUS_CONFIG = {
-  [Status.None]: { title: 'To Do', color: '#6B7280' },
+  [Status.ToDo]: { title: 'To Do', color: '#6B7280' },
   [Status.InProgress]: { title: 'In Progress', color: '#3B82F6' },
   [Status.OnHold]: { title: 'On Hold', color: '#F59E0B' },
   [Status.Cancelled]: { title: 'Cancelled', color: '#EF4444' },
@@ -10,7 +10,7 @@ export const STATUS_CONFIG = {
 
 // Column Order for Task Board
 export const COLUMN_ORDER = [
-  Status.None,
+  Status.ToDo,
   Status.OnHold,
   Status.InProgress, 
   Status.Completed,

@@ -14,7 +14,7 @@ export const AddTaskForm: React.FC<AddTaskFormProps> = ({ categoryId: defaultCat
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState<CreateTaskRequest['priority']>(Priority.Medium);
-  const [status, setStatus] = useState<CreateTaskRequest['status']>(Status.None);
+  const [status, setStatus] = useState<CreateTaskRequest['status']>(Status.ToDo);
   const [dueDate, setDueDate] = useState('');
   const [selectedCategoryId, setSelectedCategoryId] = useState(defaultCategoryId);
 
@@ -66,7 +66,7 @@ export const AddTaskForm: React.FC<AddTaskFormProps> = ({ categoryId: defaultCat
           onChange={(e) => setStatus(Number(e.target.value) as Status)}
           className="status-select"
         >
-          <option value={Status.None}>Not Started</option>
+          <option value={Status.ToDo}>Not Started</option>
           <option value={Status.InProgress}>In Progress</option>
           <option value={Status.Completed}>Completed</option>
           <option value={Status.OnHold}>On Hold</option>
