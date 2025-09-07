@@ -96,7 +96,26 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         style={style}
         {...attributes}
       >
-        <div className="card-content" onClick={handleClick}>
+        <div 
+          className="card-content" 
+          onClick={handleClick}
+          onKeyDown={(e) => {
+            switch (e.key) {
+              case 'Enter':
+              case ' ': {
+                if (!isBeingDragged) {
+                  setShowTaskModal(true);
+                }
+                e.stopPropagation();
+                return false;
+              }
+            }
+            return true;
+          }}
+          tabIndex={0}
+          role="button"
+          aria-label={`Open task: ${task.title}`}
+        >
           <div className="card-header">
             <h4 className="card-title">{task.title}</h4>
             <button
