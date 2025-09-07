@@ -69,3 +69,19 @@ public class UpdateTaskItemCommandHandlerTests
         _mockTaskItemRepository.Verify(x => x.UpdateAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
+    [Test]
+    public async Task Handle_UpdateAsyncThrowsException_ShouldPropagateException()
+    {
+        var command = new UpdateTaskItemCommand { Id = 999, Title = "Test" };
+
+        _mockTaskItemRepository
+            .Setup(x => x.UpdateAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("Database error"));
+
+        await Should.ThrowAsync<InvalidOperationException>(
+            () => _handler.Handle(command, CancellationToken.None));
+
+        _mockTaskItemRepository.Verify(x => x.UpdateAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()), Times.Once);
+    }
+}
+
