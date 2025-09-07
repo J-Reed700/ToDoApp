@@ -1,4 +1,3 @@
-// Global using statements for all test files
 global using NUnit.Framework;
 global using Shouldly;
 global using Moq;

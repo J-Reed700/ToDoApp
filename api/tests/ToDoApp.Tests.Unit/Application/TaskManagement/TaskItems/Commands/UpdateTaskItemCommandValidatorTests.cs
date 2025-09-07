@@ -1,29 +1,31 @@
 using FluentValidation.TestHelper;
-using ToDoApp.Application.TaskItems.Commands.CreateTaskItem;
+using ToDoApp.Application.TaskItems.Commands.UpdateTaskItem;
 using ToDoApp.Domain.Enums;
 
 namespace ToDoApp.Tests.Unit.Application.TaskManagement.TaskItems.Commands;
 
 [TestFixture]
-public class CreateTaskItemCommandValidatorTests
+public class UpdateTaskItemCommandValidatorTests
 {
-    private CreateTaskItemCommandValidator _validator;
+    private UpdateTaskItemCommandValidator _validator;
 
     [SetUp]
     public void SetUp()
     {
-        _validator = new CreateTaskItemCommandValidator();
+        _validator = new UpdateTaskItemCommandValidator();
     }
 
     [Test]
     public void Validator_ValidCommand_ShouldNotHaveValidationErrors()
     {
-        var command = new CreateTaskItemCommand
+        var command = new UpdateTaskItemCommand
         {
-            CategoryId = 1,
+            Id = 1,
             Title = "Valid Task Title",
             Description = "Valid description",
+            CategoryId = 1,
             Priority = Priority.Medium,
+            Status = Status.ToDo,
             DueDate = DateTime.Now.AddDays(7)
         };
 
@@ -35,9 +37,9 @@ public class CreateTaskItemCommandValidatorTests
     [Test]
     public void Validator_EmptyTitle_ShouldHaveValidationError()
     {
-        var command = new CreateTaskItemCommand
+        var command = new UpdateTaskItemCommand
         {
-            CategoryId = 1,
+            Id = 1,
             Title = string.Empty
         };
 
