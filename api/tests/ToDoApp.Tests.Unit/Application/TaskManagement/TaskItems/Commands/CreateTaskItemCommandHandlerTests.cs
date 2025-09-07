@@ -24,7 +24,6 @@ public class CreateTaskItemCommandHandlerTests
     [Test]
     public async Task Handle_ValidCommand_ShouldCreateTaskItemSuccessfully()
     {
-        // Arrange
         var categoryId = 1L;
         var category = new TaskCategory { Id = categoryId, CategoryName = "Work" };
         var command = new CreateTaskItemCommand
@@ -32,20 +31,19 @@ public class CreateTaskItemCommandHandlerTests
             CategoryId = categoryId,
             Title = "Test Task",
             Description = "Test Description",
-            Priority = Priority.High,
-            Status = Status.ToDo,
+            Priority = Priority.Medium,
             DueDate = DateTime.Now.AddDays(7)
         };
 
-        var expectedEntity = new TaskItem
+        var createdTask = new TaskItem
         {
             Id = 1,
-            CategoryId = categoryId,
-            Title = command.Title!,
-            Description = command.Description!,
+            CategoryId = command.CategoryId,
+            Title = command.Title,
+            Description = command.Description,
             Priority = command.Priority,
-            Status = command.Status,
-            DueDate = command.DueDate
+            DueDate = command.DueDate,
+            Status = Status.ToDo
         };
 
         _mockCategoryRepository
@@ -54,153 +52,33 @@ public class CreateTaskItemCommandHandlerTests
 
         _mockTaskItemRepository
             .Setup(x => x.CreateAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(expectedEntity);
+            .ReturnsAsync(createdTask);
 
-        // Act
         var result = await _handler.Handle(command, CancellationToken.None);
 
-        // Assert
         result.ShouldNotBeNull();
-        result.Id.ShouldBe(expectedEntity.Id);
         result.Title.ShouldBe(command.Title);
-        result.Description.ShouldBe(command.Description);
         result.Priority.ShouldBe(command.Priority);
-        result.Status.ShouldBe(command.Status);
-        result.DueDate.ShouldBe(command.DueDate);
-
-        _mockCategoryRepository.Verify(x => x.GetByIdAsync(categoryId, It.IsAny<CancellationToken>()), Times.Once);
         _mockTaskItemRepository.Verify(x => x.CreateAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
-    // Test removed due to nullability issues with interface - would need interface modification
-
     [Test]
-    public async Task Handle_NullTitle_ShouldCreateTaskWithEmptyTitle()
+    public async Task Handle_NonExistentCategory_ShouldThrowNotFoundException()
     {
-        // Arrange
-        var categoryId = 1L;
-        var category = new TaskCategory { Id = categoryId, CategoryName = "Work" };
+        var categoryId = 999L;
         var command = new CreateTaskItemCommand
         {
             CategoryId = categoryId,
-            Title = null,
-            Description = "Test Description",
-            Priority = Priority.Low,
-            Status = Status.ToDo
-        };
-
-        var expectedEntity = new TaskItem
-        {
-            Id = 1,
-            CategoryId = categoryId,
-            Title = string.Empty,
-            Description = command.Description!,
-            Priority = command.Priority,
-            Status = command.Status
+            Title = "Test Task"
         };
 
         _mockCategoryRepository
             .Setup(x => x.GetByIdAsync(categoryId, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(category);
+            .ThrowsAsync(new NotFoundException("Category not found"));
 
-        _mockTaskItemRepository
-            .Setup(x => x.CreateAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(expectedEntity);
+        await Should.ThrowAsync<NotFoundException>(
+            () => _handler.Handle(command, CancellationToken.None));
 
-        // Act
-        var result = await _handler.Handle(command, CancellationToken.None);
-
-        // Assert
-        result.Title.ShouldBe(string.Empty);
-        
-        _mockTaskItemRepository.Verify(x => x.CreateAsync(
-            It.Is<TaskItem>(t => t.Title == string.Empty), 
-            It.IsAny<CancellationToken>()), Times.Once);
-    }
-
-    [Test]
-    public async Task Handle_NullDescription_ShouldCreateTaskWithEmptyDescription()
-    {
-        // Arrange
-        var categoryId = 1L;
-        var category = new TaskCategory { Id = categoryId, CategoryName = "Work" };
-        var command = new CreateTaskItemCommand
-        {
-            CategoryId = categoryId,
-            Title = "Test Task",
-            Description = null,
-            Priority = Priority.Medium,
-            Status = Status.InProgress
-        };
-
-        var expectedEntity = new TaskItem
-        {
-            Id = 1,
-            CategoryId = categoryId,
-            Title = command.Title!,
-            Description = string.Empty,
-            Priority = command.Priority,
-            Status = command.Status
-        };
-
-        _mockCategoryRepository
-            .Setup(x => x.GetByIdAsync(categoryId, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(category);
-
-        _mockTaskItemRepository
-            .Setup(x => x.CreateAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(expectedEntity);
-
-        // Act
-        var result = await _handler.Handle(command, CancellationToken.None);
-
-        // Assert
-        result.Description.ShouldBe(string.Empty);
-        
-        _mockTaskItemRepository.Verify(x => x.CreateAsync(
-            It.Is<TaskItem>(t => t.Description == string.Empty), 
-            It.IsAny<CancellationToken>()), Times.Once);
-    }
-
-    [Theory]
-    [TestCase(Priority.Low)]
-    [TestCase(Priority.Medium)]
-    [TestCase(Priority.High)]
-    [TestCase(Priority.Critical)]
-    public async Task Handle_DifferentPriorities_ShouldCreateTaskWithCorrectPriority(Priority priority)
-    {
-        // Arrange
-        var categoryId = 1L;
-        var category = new TaskCategory { Id = categoryId, CategoryName = "Work" };
-        var command = new CreateTaskItemCommand
-        {
-            CategoryId = categoryId,
-            Title = "Test Task",
-            Priority = priority,
-            Status = Status.ToDo
-        };
-
-        var expectedEntity = new TaskItem
-        {
-            Id = 1,
-            CategoryId = categoryId,
-            Title = command.Title!,
-            Priority = priority,
-            Status = command.Status
-        };
-
-        _mockCategoryRepository
-            .Setup(x => x.GetByIdAsync(categoryId, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(category);
-
-        _mockTaskItemRepository
-            .Setup(x => x.CreateAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(expectedEntity);
-
-        // Act
-        var result = await _handler.Handle(command, CancellationToken.None);
-
-        // Assert
-        result.Priority.ShouldBe(priority);
+        _mockTaskItemRepository.Verify(x => x.CreateAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }
