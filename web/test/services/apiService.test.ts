@@ -61,7 +61,7 @@ describe('ApiService', () => {
         title: 'New Task',
         description: 'Task description',
         priority: Priority.High,
-        status: Status.None,
+        status: Status.ToDo,
         dueDate: '2024-01-15',
       }
       

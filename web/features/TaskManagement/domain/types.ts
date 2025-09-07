@@ -7,7 +7,7 @@ export enum Priority {
 }
 
 export enum Status {
-    None = 0,
+    ToDo = 0,
     InProgress = 1,
     Completed = 2,
     OnHold = 3,
